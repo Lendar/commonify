@@ -1,23 +1,3 @@
-start = type:amdkeyword __ modules:modules rest {
-  return modules;
-}
-
-modules = '[' __ e:PrimaryExpression ',' [^=>]+ {
-  return e;
-}
-arrow = '->' / '=>'
-amdkeyword = 'require' / 'define'
-rest = .*
-
-
-
-
-
-
-
-
-
-
 // -----------------------
 // https://github.com/pegjs/pegjs/blob/master/examples/javascript.pegjs
 
@@ -1383,3 +1363,67 @@ SourceElement
 /* ----- A.8 JSON ----- */
 
 /* Irrelevant. */
+
+
+
+
+
+
+
+
+
+
+// --- Coffee -----------------------------------------------------------------
+
+ElementList
+  = first:(
+      elision:(Elision __)? element:AssignmentExpression {
+        return optionalList(extractOptional(elision, 0)).concat(element);
+      }
+    )
+    rest:(
+      __ ","? __ elision:(Elision __)? element:AssignmentExpression {
+        return optionalList(extractOptional(elision, 0)).concat(element);
+      }
+    )*
+    { return Array.prototype.concat.apply(first, rest); }
+
+ArrayLiteral = "[" __ elision:(Elision __)? "]" {
+      return {
+        type:     "ArrayExpression",
+        elements: optionalList(extractOptional(elision, 0))
+      };
+    }
+  / "[" __ elements:ElementList __ "]" {
+      return {
+        type:     "ArrayExpression",
+        elements: elements
+      };
+    }
+  / "[" __ elements:ElementList __ ","? __ elision:(Elision __)? "]" {
+      return {
+        type:     "ArrayExpression",
+        elements: elements.concat(optionalList(extractOptional(elision, 0)))
+      };
+    }
+
+SingleLineComment
+  = "#" (!LineTerminator SourceCharacter)*
+
+// ----------------------------------------------------------------------------
+
+
+
+Program = type:amdkeyword __ modules:(Modules __ ',')? Args rest {
+  return modules[0];
+}
+
+Modules = __ e:ArrayLiteral {
+  return e;
+}
+
+Args = [^=>]+
+
+arrow = '->' / '=>'
+amdkeyword = 'require' / 'define'
+rest = .*
