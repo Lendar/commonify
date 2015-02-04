@@ -9,10 +9,16 @@ function main(argv) {
   argv._.map(function (amdfile) {
     console.log('--- Converting', amdfile);
     var result = commonify(file.load(amdfile));
-    console.log('--- Result:', result.message);
-    console.log('');
+    if (argv.dry || !result.code) {
+      console.log('--- Result:', result.message);
+      console.log('');
+    } else {
+      file.save(amdfile, result.code);
+    }
   });
 }
 
-var argv = minimist(process.argv.slice(2));
+var argv = minimist(process.argv.slice(2), {
+  dry: false
+});
 main(argv);
