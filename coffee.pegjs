@@ -1410,12 +1410,20 @@ ArrayLiteral = "[" __ elision:(Elision __)? "]" {
 SingleLineComment
   = "#" (!LineTerminator SourceCharacter)*
 
+ArgumentList
+  = first:AssignmentExpression rest:(__ ","? __ AssignmentExpression)* {
+      return buildList(first, rest, 3);
+    }
+
 // ----------------------------------------------------------------------------
 
 
 
-Program = type:amdkeyword __ modules:(Modules __ ',')? Args rest {
-  return modules[0];
+Program = type:amdkeyword __ modules:(Modules __ ',')? __ args:Arguments rest {
+  return {
+    requires: modules[0],
+    vars: args
+  };
 }
 
 Modules = __ e:ArrayLiteral {
