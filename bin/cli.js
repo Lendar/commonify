@@ -11,6 +11,9 @@ function main(argv) {
     var result = commonify(file.load(amdfile));
     if (argv.dry || !result.code) {
       console.log('--- Result:', result.message);
+      if (argv.dry && result.code) {
+        console.log(result.code);
+      }
       console.log('');
     } else {
       file.save(amdfile, result.code);
