@@ -1,5 +1,5 @@
 {
-  "name": "cjsify-coffee",
+  "name": "commonify-coffee",
   "version": "0.0.0",
   "description": "Convert AMD .coffee to CommonJS .coffee",
   "main": "index.js",
