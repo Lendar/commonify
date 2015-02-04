@@ -8,17 +8,9 @@ var commonify = require('../lib/commonify');
 function main(argv) {
   argv._.map(function (amdfile) {
     console.log('--- Converting', amdfile);
-    var content = commonify(file.load(amdfile));
-    if (content.type === 'amd') {
-      console.log('requires =', content.requires);
-      console.log('vars =', content.vars);
-    }
-    else if (content.type === 'cjs') {
-      console.log('skipping CommonJS file');
-    }
-    else {
-      throw new Error('Unknown type: ' + content.type);
-    }
+    var result = commonify(file.load(amdfile));
+    console.log('--- Result:', result.message);
+    console.log('');
   });
 }
 
