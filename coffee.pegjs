@@ -1419,12 +1419,19 @@ ArgumentList
 
 
 
-Program = type:AMDKeyword __ modules:(Modules __ ',')? __ args:Arguments __ Arrow rest:Body {
+Program = AMDProgram / CJSProgram
+
+AMDProgram = type:AMDKeyword __ modules:(Modules __ ',')? __ args:(Arguments __)? Arrow rest:Raw {
   return {
-    requires: modules[0],
-    vars: args,
+    type: 'amd',
+    requires: modules ? modules[0].elements : null,
+    vars: args ? args[0] : null,
     rest: rest.join('')
   };
+}
+
+CJSProgram = Raw {
+  return {type: 'cjs'};
 }
 
 Modules = __ e:ArrayLiteral {
@@ -1435,4 +1442,4 @@ Args = [^=>]+
 
 Arrow = '->' / '=>'
 AMDKeyword = 'require' / 'define'
-Body = .*
+Raw = .*

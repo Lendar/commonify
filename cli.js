@@ -9,7 +9,16 @@ function main(argv) {
   argv._.map(function (amdfile) {
     console.log('--- Converting', amdfile);
     var content = commonify(file.load(amdfile));
-    console.log(content.vars);
+    if (content.type === 'amd') {
+      console.log('requires =', content.requires);
+      console.log('vars =', content.vars);
+    }
+    else if (content.type === 'cjs') {
+      console.log('skipping CommonJS file');
+    }
+    else {
+      throw new Error('Unknown type: ' + content.type);
+    }
   });
 }
 
