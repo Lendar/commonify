@@ -1419,10 +1419,11 @@ ArgumentList
 
 
 
-Program = type:amdkeyword __ modules:(Modules __ ',')? __ args:Arguments rest {
+Program = type:AMDKeyword __ modules:(Modules __ ',')? __ args:Arguments __ Arrow rest:Body {
   return {
     requires: modules[0],
-    vars: args
+    vars: args,
+    rest: rest.join('')
   };
 }
 
@@ -1432,6 +1433,6 @@ Modules = __ e:ArrayLiteral {
 
 Args = [^=>]+
 
-arrow = '->' / '=>'
-amdkeyword = 'require' / 'define'
-rest = .*
+Arrow = '->' / '=>'
+AMDKeyword = 'require' / 'define'
+Body = .*
