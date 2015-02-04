@@ -2,12 +2,12 @@
   "name": "commonify-coffee",
   "version": "0.0.0",
   "description": "Convert AMD .coffee to CommonJS .coffee",
-  "main": "index.js",
+  "main": "lib/commonify.js",
   "bin": {
     "commonify": "./commonify.js"
   },
   "scripts": {
-    "start": "nodemon -e js,pegjs testrun.js",
+    "start": "nodemon -e js,pegjs lib/testrun.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Denis Elistratov <xeldim@gmail.com>",

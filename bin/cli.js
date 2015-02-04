@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var minimist = require('minimist');
-var file = require('./file');
-var commonify = require('./commonify');
+var file = require('../lib/file');
+var commonify = require('../lib/commonify');
 
 
 function main(argv) {
