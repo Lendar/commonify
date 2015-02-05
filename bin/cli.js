@@ -8,7 +8,7 @@ var commonify = require('../lib/commonify');
 function main(argv) {
   argv._.map(function (amdfile) {
     console.log('--- Converting', amdfile);
-    var result = commonify(file.load(amdfile));
+    var result = commonify(file.load(amdfile), {path: amdfile});
     if (argv.dry || !result.code) {
       console.log('--- Result:', result.message);
       if (argv.dry && result.code) {
