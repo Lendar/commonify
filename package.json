@@ -1,6 +1,6 @@
 {
   "name": "commonify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Converts AMD/RequireJS modules to CommonJS. Supports CoffeeScript.",
   "main": "lib/commonify.js",
   "preferGlobal": true,
